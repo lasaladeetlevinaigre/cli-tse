@@ -39,13 +39,3 @@
 - **Cas d'usage** : Trouver un commit ou un fichier dans l'historique Git.
 
 ---
-
-## GitHub Copilot CLI (`gh copilot`)
-
-- **Fonction** : Génère/explique des commandes shell en langage naturel.
-- **Test** :
-  - `gh copilot suggest 'trouver les fichiers Python modifiés cette semaine'` → propose `find . -name "*.py" -mtime -7`.
-  - `gh copilot explain 'git rebase -i HEAD~3'` → explique chaque étape du rebase.
-- **Cas** : Trouver des commandes complexes ou comprendre des scripts existants.
-
----
