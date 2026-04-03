@@ -40,8 +40,12 @@
 
 ---
 
-## Claude Code (`claude`)
+## GitHub Copilot CLI (`gh copilot`)
 
-- **Ce qu'il fait** : Assistant IA pour analyser du code, répondre à des questions ou générer des fichiers.
-- **Découverte** : `claude 'Explique le but de ce dépôt'` donne un résumé clair.
-- **Cas d'usage** : Générer des docstrings ou diagnostiquer des erreurs dans le code.
+- **Fonction** : Génère/explique des commandes shell en langage naturel.
+- **Test** :
+  - `gh copilot suggest 'trouver les fichiers Python modifiés cette semaine'` → propose `find . -name "*.py" -mtime -7`.
+  - `gh copilot explain 'git rebase -i HEAD~3'` → explique chaque étape du rebase.
+- **Cas** : Trouver des commandes complexes ou comprendre des scripts existants.
+
+---
