@@ -1,0 +1,254 @@
+# Devkit Project — Copilot CLI Instruction File
+
+## Context
+
+You are an AI coding assistant integrated into a terminal workflow.
+Your goal is to help build **devkit**, a Python-based CLI tool that orchestrates modern developer tools such as GitHub CLI, Copilot CLI, Gemini, and Claude.
+
+The project should follow a clean architecture, be production-ready, and reflect real-world developer workflows.
+
+---
+
+## Global Objective
+
+Build a CLI tool called `devkit` that allows developers to:
+
+* Manage GitHub workflows (issues, PRs, CI)
+* Use AI tools from the terminal (Copilot, Gemini, Claude)
+* Automate development tasks (feature creation, commit generation, PR review)
+
+---
+
+## Technical Stack
+
+* Python 3.12+
+* Typer (CLI framework)
+* Rich (UI formatting)
+* subprocess (tool orchestration)
+* GitHub CLI (`gh`)
+* GitHub Copilot CLI (`gh copilot`)
+* Gemini CLI
+* Claude Code CLI
+
+---
+
+## Project Structure
+
+```
+devkit/
+├── src/devkit/
+│   ├── main.py
+│   ├── config.py
+│   ├── commands/
+│   │   ├── github.py
+│   │   ├── ai.py
+│   │   └── workflow.py
+│   └── utils/
+│       ├── gh.py
+│       ├── shell.py
+│       └── display.py
+├── tests/
+├── pyproject.toml
+└── README.md
+```
+
+---
+
+## Core Requirements
+
+### 1. GitHub Integration (commands/github.py)
+
+Implement the following commands using `gh` via subprocess:
+
+* `issues`: list issues using `--json` and display with Rich table
+* `pr-summary`: show PR title, body, and diff
+* `start-feature`: create a branch from repo
+* `open-pr`: create a pull request
+* `run-status`: show CI status
+
+Constraints:
+
+* Always use `--json` output
+* Parse JSON in Python
+* Display results using Rich
+
+---
+
+### 2. AI Integration (commands/ai.py)
+
+Implement:
+
+#### `explain`
+
+* Input: shell command
+* Calls: `gh copilot explain`
+* Output: Rich panel
+
+#### `suggest`
+
+* Input: natural language task
+* Calls: `gh copilot suggest`
+
+#### `review`
+
+* Input: PR number
+* Fetch diff with `gh pr diff`
+* Send to Gemini or Claude
+* Return structured AI review
+
+#### `commit`
+
+* Read staged diff
+* Generate commit message via AI
+* Ask user to confirm before committing
+
+---
+
+### 3. Workflow Automation (commands/workflow.py)
+
+Implement:
+
+#### `feature-start`
+
+Steps:
+
+1. Create git branch (`feature/<name>`)
+2. Push branch
+3. Create draft PR with `gh pr create`
+4. If issue provided:
+
+   * Fetch issue details
+   * Generate implementation plan using Claude
+
+---
+
+### 4. CLI App Setup (main.py)
+
+* Use Typer
+* Create subcommands:
+
+  * `devkit gh`
+  * `devkit ai`
+  * `devkit workflow`
+* Add help message and welcome panel
+
+---
+
+### 5. Configuration System
+
+File: `~/.devkit/config.json`
+
+Defaults:
+
+```json
+{
+  "ai_tool": "claude",
+  "default_repo": "",
+  "theme": "dark",
+  "show_spinner": true
+}
+```
+
+* Must be loaded at runtime
+* Override defaults if file exists
+
+---
+
+### 6. Tool Abstraction
+
+Create reusable helpers:
+
+#### `gh.py`
+
+* `gh(...)` → returns raw output
+* `gh_json(...)` → returns parsed JSON
+
+#### `shell.py`
+
+* generic subprocess wrapper
+
+---
+
+### 7. Interactive Mode (fzf)
+
+* Add `--interactive` flag to issue/PR listing
+* Pipe results to `fzf`
+* Allow user selection
+
+---
+
+### 8. Error Handling
+
+* Detect missing tools using `shutil.which`
+* Show clear installation instructions
+* Exit cleanly
+
+---
+
+### 9. Output UX
+
+Use Rich for:
+
+* Tables
+* Panels
+* Spinners
+* Colored output
+
+---
+
+## Development Guidelines
+
+* Use typed Python functions
+* Keep code modular and clean
+* Avoid hardcoding values
+* Prefer composition over duplication
+* Limit subprocess calls to well-defined helpers
+
+---
+
+## Example Tasks You Should Be Able to Perform
+
+* Generate a Python function wrapping `gh issue list`
+* Build a Typer command with options and arguments
+* Parse JSON output and render a Rich table
+* Pipe command output into an AI tool
+* Chain multiple CLI tools into one workflow
+
+---
+
+## Expected Behavior
+
+* Code must be executable
+* Commands must work end-to-end
+* Output must be readable and user-friendly
+* The CLI should feel like a native developer tool
+
+---
+
+## Final Goal
+
+Produce a fully working CLI tool that:
+
+* Can be installed with `pip install -e .`
+* Automates real developer workflows
+* Integrates AI seamlessly into the terminal
+
+---
+
+## Instruction Style
+
+When generating code:
+
+* Provide complete, runnable files
+* Include imports
+* Respect project structure
+* Avoid placeholders unless explicitly requested
+
+When unsure:
+
+* Make reasonable assumptions
+* Prefer simplicity over over-engineering
+
+---
+
+End of instructions.
