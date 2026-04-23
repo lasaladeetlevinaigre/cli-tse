@@ -1,6 +1,6 @@
 """devkit - Modern developer workflow with GitHub CLI."""
 import typer
-from devkit.commands.github import app as github_app
+from devkit.commands.github import github_app
 
 app = typer.Typer()
 
