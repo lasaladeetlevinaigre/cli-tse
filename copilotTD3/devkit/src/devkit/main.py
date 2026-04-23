@@ -4,14 +4,15 @@ import typer
 from rich.console import Console
 from rich.panel import Panel
 
-from devkit.commands import ai_app, github_app, workflow_app
+from devkit.commands import ai_app, workflow_app
+from devkit.commands.github import github_app
 from devkit.config import get_global_config
 
 console = Console()
 app = typer.Typer(help="devkit - Modern Developer Workflow CLI")
 
 # Add subcommands
-app.add_typer(github_app, name="gh", help="GitHub operations")
+app.add_typer(github_app, name="github", help="GitHub CLI commands")
 app.add_typer(ai_app, name="ai", help="AI-powered commands")
 app.add_typer(workflow_app, name="workflow", help="Workflow automation")
 
